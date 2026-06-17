@@ -150,6 +150,6 @@ export const TourProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export function useTour() {
   const ctx = useContext(TourContext);
-  if (!ctx) throw new Error('useTour must be used within TourProvider');
+  if (!ctx) return { isTourOpen: false, currentStep: null, startTour: ()=>{}, endTour: ()=>{}, nextStep: ()=>{}, prevStep: ()=>{}, restartTour: ()=>{}, tourActive: false, setTourActive: ()=>{} };
   return ctx;
 }

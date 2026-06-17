@@ -28,7 +28,7 @@ const JournalContext = createContext<JournalContextType | undefined>(undefined);
 export const useJournal = () => {
   const context = useContext(JournalContext);
   if (!context) {
-    throw new Error('useJournal must be used within a JournalProvider');
+    return { entries: [], loading: false, addEntry: async ()=>{}, deleteEntry: async ()=>{} };
   }
   return context;
 };

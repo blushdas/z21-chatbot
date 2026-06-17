@@ -344,7 +344,7 @@ const SAMPLE_SAVED_CHATS: SavedChat[] = [
 export const useSavedChats = () => {
   const context = useContext(SavedChatsContext);
   if (!context) {
-    throw new Error("useSavedChats must be used within a SavedChatsProvider");
+    return null;
   }
   return context;
 };

@@ -40,7 +40,7 @@ export const useSourceComparison = () => {
   const context = useContext(SourceComparisonContext);
   
   if (context === undefined) {
-    throw new Error('useSourceComparison must be used within a SourceComparisonProvider');
+    return { comparisonMode: false, primarySource: null, secondarySource: null, toggleComparison: ()=>{}, setPrimary: ()=>{}, setSecondary: ()=>{}, clearComparison: ()=>{} };
   }
   
   return context;

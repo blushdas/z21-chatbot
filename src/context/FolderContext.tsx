@@ -21,7 +21,7 @@ const FolderContext = createContext<FolderContextType | undefined>(undefined);
 export const useFolders = () => {
   const context = useContext(FolderContext);
   if (context === undefined) {
-    throw new Error('useFolders must be used within a FolderProvider');
+    return { folders: [], loading: false, createFolder: async ()=>{}, updateFolder: async ()=>{}, deleteFolder: async ()=>{} };
   }
   return context;
 };

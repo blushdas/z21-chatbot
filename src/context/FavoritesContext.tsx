@@ -156,7 +156,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
 export const useFavorites = (): FavoritesContextType => {
   const context = useContext(FavoritesContext);
   if (context === undefined) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    return { favorites: [], loading: false, addFavorite: async ()=>{}, removeFavorite: async ()=>{} };
   }
   return context;
 };

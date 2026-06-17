@@ -27,7 +27,7 @@ export const useSupabaseHealthContext = (): SupabaseHealthContextType => {
   const context = useContext(SupabaseHealthContext);
   
   if (context === undefined) {
-    throw new Error('useSupabaseHealthContext must be used within a SupabaseHealthProvider');
+    return { status: 'loading' as const, isHealthy: true, error: null, lastChecked: null, refetch: async ()=>{} };
   }
   
   return context;

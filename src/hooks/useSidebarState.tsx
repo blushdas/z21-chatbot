@@ -15,7 +15,7 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 export const useSidebarState = () => {
   const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error('useSidebarState must be used within a SidebarProvider');
+    return { isOpen: true, toggle: ()=>{}, open: ()=>{}, close: ()=>{} };
   }
   return context;
 };

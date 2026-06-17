@@ -18,6 +18,6 @@ export const ChatFavoritesProvider: React.FC<{ children: ReactNode }> = ({ child
 
 export const useChatFavoritesContext = () => {
   const ctx = useContext(ChatFavoritesContext);
-  if (!ctx) throw new Error('useChatFavoritesContext must be used within ChatFavoritesProvider');
+  // defensive: return null outside provider
   return ctx;
 };

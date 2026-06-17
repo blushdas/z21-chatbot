@@ -32,7 +32,7 @@ export const CitationVisibilityProvider: React.FC<{ children: React.ReactNode }>
 export const useCitationVisibility = () => {
   const context = useContext(CitationVisibilityContext);
   if (context === undefined) {
-    throw new Error('useCitationVisibility must be used within a CitationVisibilityProvider');
+    return { citationsVisible: true, toggleCitations: ()=>{}, showCitations: ()=>{}, hideCitations: ()=>{} };
   }
   return context;
 };

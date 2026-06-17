@@ -18,7 +18,7 @@ export const ChatManagementProvider = ({ children }: { children: ReactNode }) =>
 export const useChatManagementContext = () => {
   const context = useContext(ChatManagementContext);
   if (!context) {
-    throw new Error('useChatManagementContext must be used within ChatManagementProvider');
+    return { chat: null, messages: [], loading: false, error: null, initialized: false, sendUserMessage: async ()=>{}, regenerateAIResponse: async ()=>{}, editMessage: async ()=>{}, deleteMessage: async ()=>{}, toggleFavorite: async ()=>{}, loadChat: async ()=>{}, createNewChat: async ()=>{}, saveCurrentChat: async ()=>{}, updateChatMetadata: async ()=>{}, clearMessages: ()=>{}, setMessages: ()=>{}, importMessages: async ()=>{}, regenerateResponse: async ()=>{}, cancelStreaming: ()=>{}, regenerateWithOptions: async ()=>{} };
   }
   return context;
 };

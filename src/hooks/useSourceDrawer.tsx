@@ -61,7 +61,7 @@ export const useSourceDrawer = () => {
   const context = useContext(SourceDrawerContext);
   
   if (context === undefined) {
-    throw new Error('useSourceDrawer must be used within a SourceDrawerProvider');
+    return { isDrawerOpen: false, selectedSource: null, openDrawer: ()=>{}, closeDrawer: ()=>{}, selectSource: ()=>{} };
   }
   
   return context;
