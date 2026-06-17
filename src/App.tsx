@@ -1,14 +1,39 @@
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-} from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import LandingPage from "@/pages/LandingPage";
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/components/ui/theme-provider';
+import { AuthProvider } from '@/context/SupabaseAuthContext';
+import { FavoritesProvider } from '@/context/FavoritesContext';
+import { ChatFavoritesProvider } from '@/context/ChatFavoritesContext';
+import { FolderProvider } from '@/context/FolderContext';
+import { SourceDrawerProvider } from '@/hooks/useSourceDrawer';
+import { CitationVisibilityProvider } from '@/context/CitationVisibilityContext';
+import { SidebarProvider } from '@/hooks/useSidebarState';
+import { ChatManagementProvider } from '@/context/ChatManagementContext';
+import { SupabaseHealthProvider } from '@/context/SupabaseHealthContext';
+import { TourProvider } from '@/context/TourContext';
+import { BrandProvider } from '@/context/BrandContext';
+import { AppReadyProvider } from '@/context/AppReadyContext';
+import { SourceComparisonProvider } from '@/hooks/useSourceComparison';
+import TourRunner from '@/components/tour/TourRunner';
+import GlobalSidebarRestoreButton from '@/components/GlobalSidebarRestoreButton';
+import ProjectChatsConsistencyBadge from '@/components/dev/ProjectChatsConsistencyBadge';
+import ServiceStatusBanner from '@/components/ServiceStatusBanner';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import logger from '@/utils/logger';
+import { useTrackPageView } from '@/hooks/useTrackPageView';
+import { Toaster } from '@/components/ui/sonner';
+import { Toaster as ShadcnToaster } from '@/components/ui/toaster';
+import Index from './pages/Index';
+import LandingPage from './pages/LandingPage';
+import AuthPage from './pages/AuthPage';
+import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,41 +44,72 @@ const queryClient = new QueryClient({
   },
 });
 
+function AppRoutes() {
+  const location = useLocation();
+  const prevPathRef = React.useRef<string>(location.pathname);
+  React.useEffect(() => {
+    try {
+      sessionStorage.setItem('previousPath', prevPathRef.current);
+      prevPathRef.current = location.pathname;
+    } catch (error) {
+      logger.warn('Failed to persist previous path', error);
+    }
+  }, [location.pathname]);
+
+  return (
+    <>
+      <ErrorBoundary>
+        <AppReadyProvider>
+          <BrandProvider>
+            <AuthProvider>
+              <SupabaseHealthProvider>
+                <FavoritesProvider>
+                  <ChatFavoritesProvider>
+                    <FolderProvider>
+                      <ChatManagementProvider>
+                        <CitationVisibilityProvider>
+                          <SidebarProvider>
+                            <SourceDrawerProvider>
+                              <SourceComparisonProvider>
+                                <TourProvider>
+                                  <ServiceStatusBanner />
+                                  <TourRunner />
+                                  <GlobalSidebarRestoreButton />
+                                  <ProjectChatsConsistencyBadge />
+                                  <Routes>
+                                    <Route path="/" element={<Index />} />
+                                    <Route path="/landing" element={<LandingPage />} />
+                                    <Route path="/chat" element={<Index />} />
+                                    <Route path="/chat/:chatId" element={<Index />} />
+                                    <Route path="/auth" element={<AuthPage />} />
+                                    <Route path="*" element={<NotFound />} />
+                                  </Routes>
+                                </TourProvider>
+                              </SourceComparisonProvider>
+                            </SourceDrawerProvider>
+                          </SidebarProvider>
+                        </CitationVisibilityProvider>
+                      </ChatManagementProvider>
+                    </FolderProvider>
+                  </ChatFavoritesProvider>
+                </FavoritesProvider>
+              </SupabaseHealthProvider>
+            </AuthProvider>
+          </BrandProvider>
+        </AppReadyProvider>
+      </ErrorBoundary>
+      <Toaster />
+      <ShadcnToaster />
+    </>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" storageKey="z21-theme-v1">
         <Router>
-          <div className="flex min-h-screen flex-col bg-background text-foreground">
-            <Header />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                {/* Chat app — coming soon */}
-                <Route
-                  path="/chat"
-                  element={
-                    <div className="flex items-center justify-center h-[60vh]">
-                      <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                        Chat — coming soon
-                      </p>
-                    </div>
-                  }
-                />
-                <Route
-                  path="/faq"
-                  element={
-                    <div className="flex items-center justify-center h-[60vh]">
-                      <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                        FAQ — coming soon
-                      </p>
-                    </div>
-                  }
-                />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <AppRoutes />
         </Router>
       </ThemeProvider>
     </QueryClientProvider>
