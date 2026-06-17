@@ -51,6 +51,7 @@ function AppRoutes() {
 
   return (
     <ErrorBoundary>
+      {/* AppReadyProvider must be INSIDE AuthProvider — it calls useAuth() */}
       <AppReadyProvider>
         <BrandProvider>
           <AuthProvider>
