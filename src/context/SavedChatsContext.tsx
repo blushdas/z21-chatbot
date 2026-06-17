@@ -344,7 +344,22 @@ const SAMPLE_SAVED_CHATS: SavedChat[] = [
 export const useSavedChats = () => {
   const context = useContext(SavedChatsContext);
   if (!context) {
-    return null;
+    return {
+      savedChats: [],
+      displayableChats: [],
+      currentChatId: null,
+      addChat: () => '',
+      updateChat: () => {},
+      autoSaveChat: () => {},
+      getChat: () => undefined,
+      resumeChat: () => {},
+      generateSummary: () => [],
+      shouldSaveChat: () => false,
+      shouldDisplayChat: () => true,
+      isPlaceholderChat: () => false,
+      cleanupPlaceholderChats: () => {},
+      removeDuplicateChats: () => {},
+    };
   }
   return context;
 };
