@@ -1,0 +1,56 @@
+/* Chat sidebar animations */
+
+@keyframes fadeInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-left {
+  animation: fadeInFromLeft 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px hsl(43 45% 45% / 0.25)) drop-shadow(0 0 6px hsl(43 45% 45% / 0.15));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px hsl(43 45% 50% / 0.55)) drop-shadow(0 0 14px hsl(43 45% 50% / 0.35));
+  }
+}
+
+.animate-logo-glow {
+  animation: logoGlow 3.5s ease-in-out infinite;
+  will-change: filter;
+}
+
+@keyframes logoGlowLight {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px hsl(214 70% 35% / 0.35)) drop-shadow(0 0 8px hsl(214 70% 35% / 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px hsl(214 75% 40% / 0.7)) drop-shadow(0 0 18px hsl(214 75% 40% / 0.45));
+  }
+}
+
+html:not(.dark) .animate-logo-glow {
+  animation: logoGlowLight 3.5s ease-in-out infinite;
+}
