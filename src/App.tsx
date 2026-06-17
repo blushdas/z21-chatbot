@@ -21,15 +21,8 @@ import { TourProvider } from '@/context/TourContext';
 import { BrandProvider } from '@/context/BrandContext';
 import { AppReadyProvider } from '@/context/AppReadyContext';
 import { SourceComparisonProvider } from '@/hooks/useSourceComparison';
-import TourRunner from '@/components/tour/TourRunner';
-import GlobalSidebarRestoreButton from '@/components/GlobalSidebarRestoreButton';
-import ProjectChatsConsistencyBadge from '@/components/dev/ProjectChatsConsistencyBadge';
 import ServiceStatusBanner from '@/components/ServiceStatusBanner';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import logger from '@/utils/logger';
-import { useTrackPageView } from '@/hooks/useTrackPageView';
-import { Toaster } from '@/components/ui/sonner';
-import { Toaster as ShadcnToaster } from '@/components/ui/toaster';
 import Index from './pages/Index';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
@@ -52,55 +45,48 @@ function AppRoutes() {
       sessionStorage.setItem('previousPath', prevPathRef.current);
       prevPathRef.current = location.pathname;
     } catch (error) {
-      logger.warn('Failed to persist previous path', error);
+      // silently ignore
     }
   }, [location.pathname]);
 
   return (
-    <>
-      <ErrorBoundary>
-        <AppReadyProvider>
-          <BrandProvider>
-            <AuthProvider>
-              <SupabaseHealthProvider>
-                <FavoritesProvider>
-                  <ChatFavoritesProvider>
-                    <FolderProvider>
-                      <ChatManagementProvider>
-                        <CitationVisibilityProvider>
-                          <SidebarProvider>
-                            <SourceDrawerProvider>
-                              <SourceComparisonProvider>
-                                <TourProvider>
-                                  <ServiceStatusBanner />
-                                  <TourRunner />
-                                  <GlobalSidebarRestoreButton />
-                                  <ProjectChatsConsistencyBadge />
-                                  <Routes>
-                                    <Route path="/" element={<Index />} />
-                                    <Route path="/landing" element={<LandingPage />} />
-                                    <Route path="/chat" element={<Index />} />
-                                    <Route path="/chat/:chatId" element={<Index />} />
-                                    <Route path="/auth" element={<AuthPage />} />
-                                    <Route path="*" element={<NotFound />} />
-                                  </Routes>
-                                </TourProvider>
-                              </SourceComparisonProvider>
-                            </SourceDrawerProvider>
-                          </SidebarProvider>
-                        </CitationVisibilityProvider>
-                      </ChatManagementProvider>
-                    </FolderProvider>
-                  </ChatFavoritesProvider>
-                </FavoritesProvider>
-              </SupabaseHealthProvider>
-            </AuthProvider>
-          </BrandProvider>
-        </AppReadyProvider>
-      </ErrorBoundary>
-      <Toaster />
-      <ShadcnToaster />
-    </>
+    <ErrorBoundary>
+      <AppReadyProvider>
+        <BrandProvider>
+          <AuthProvider>
+            <SupabaseHealthProvider>
+              <FavoritesProvider>
+                <ChatFavoritesProvider>
+                  <FolderProvider>
+                    <ChatManagementProvider>
+                      <CitationVisibilityProvider>
+                        <SidebarProvider>
+                          <SourceDrawerProvider>
+                            <SourceComparisonProvider>
+                              <TourProvider>
+                                <ServiceStatusBanner />
+                                <Routes>
+                                  <Route path="/" element={<Index />} />
+                                  <Route path="/landing" element={<LandingPage />} />
+                                  <Route path="/chat" element={<Index />} />
+                                  <Route path="/chat/:chatId" element={<Index />} />
+                                  <Route path="/auth" element={<AuthPage />} />
+                                  <Route path="*" element={<NotFound />} />
+                                </Routes>
+                              </TourProvider>
+                            </SourceComparisonProvider>
+                          </SourceDrawerProvider>
+                        </SidebarProvider>
+                      </CitationVisibilityProvider>
+                    </ChatManagementProvider>
+                  </FolderProvider>
+                </ChatFavoritesProvider>
+              </FavoritesProvider>
+            </SupabaseHealthProvider>
+          </AuthProvider>
+        </BrandProvider>
+      </AppReadyProvider>
+    </ErrorBoundary>
   );
 }
 
